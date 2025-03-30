@@ -30,7 +30,7 @@ def start_analysis(file_path_entry, tolerance_entry, duration_entry, gap_entry, 
         if tolerance_entry.get():
             tolerance_percentage = float(tolerance_entry.get())
             if not (0 <= tolerance_percentage <= 100):
-                raise ValueError("Tolerance must be between 0 and 100.")
+                raise ValueError("Tolerance must be between 0 and 100 percent.")
             kwargs["loudness_threshold"] = tolerance_percentage / 100  # Convert to fraction
 
         if duration_entry.get():
@@ -44,7 +44,7 @@ def start_analysis(file_path_entry, tolerance_entry, duration_entry, gap_entry, 
         # Display the results in the results_text widget
         results_text.config(state=tk.NORMAL)
         results_text.delete(1.0, tk.END)
-        results_text.insert(tk.END, f"Shouting Ranges:\n{result['shouting_ranges']}")
+        results_text.insert(tk.END, f"Loud Segments:\n{result['loud_segments']}")
         results_text.config(state=tk.DISABLED)
 
     except ValueError as ve:
@@ -60,11 +60,11 @@ def save_results(results_text):
         if not results:
             raise ValueError("No results to save. Please run the analysis first.")
 
-        # Extract the shouting ranges from the results text
-        if "Shouting Ranges:" in results:
-            shouting_ranges = eval(results.split("Shouting Ranges:\n")[1].strip())
+        # Extract the loud segments from the results text
+        if "Loud Segments:" in results:
+            loud_segments = eval(results.split("Loud Segments:\n")[1].strip())
         else:
-            raise ValueError("Invalid results format. Unable to extract shouting ranges.")
+            raise ValueError("Invalid results format. Unable to extract loud segments.")
 
         # Open a file dialog to choose the save location
         file_path = filedialog.asksaveasfilename(
@@ -75,7 +75,7 @@ def save_results(results_text):
             return  # User canceled the save dialog
 
         # Save the results to the chosen file
-        save_to_json({"shouting_ranges": shouting_ranges}, output_file=file_path)
+        save_to_json({"loud_segments": loud_segments}, output_file=file_path)
         messagebox.showinfo("Success", f"Results saved successfully to {file_path}")
 
     except ValueError as ve:
@@ -106,13 +106,13 @@ def show_help():
     """Display a help message with information about the input fields."""
     help_text = (
         "About AudioPeaker:\n\n"
-        "This program analyzes audio files to detect shouting segments based on loudness.\n\n"
+        "This program analyzes audio files to detect loud/shouting segments based on loudness.\n\n"
         "Input Field Guide:\n\n"
         "1. Tolerance (%):\n"
         "   - Sets the loudness threshold as a percentage.\n"
         "   - Higher values ignore quieter parts.\n\n"
         "2. Duration (seconds):\n"
-        "   - Specifies the minimum length of a shouting segment.\n"
+        "   - Specifies the minimum length of a loud segment.\n"
         "   - Example With 3 seconds:\n"
         "       1:02-1:04 is ignored\n"
         "       1:07-1:18 is not ignored\n\n"
@@ -123,7 +123,7 @@ def show_help():
         "       With 5 seconds: 1:02-1:18\n\n"
         "4. START Button:\n"
         "   - Initiates the analysis of the selected audio file.\n"
-        "   - Displays the shouting ranges in the results area.\n\n"
+        "   - Displays the loud segments in the results area.\n\n"
         "5. Save Results Button:\n"
         "   - Saves the analysis results to a JSON file.\n\n"
 

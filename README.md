@@ -67,7 +67,7 @@ The results are saved in a JSON file with the following structure:
 
 ```json
 {
-    "shouting_ranges": ["0:07-0:25", "0:38-2:31", "9:44-9:53"]
+    "loud_segments": ["0:07-0:25", "0:38-2:31", "9:44-9:53"]
 }
 ```
 

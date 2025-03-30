@@ -9,7 +9,7 @@ def compute_loudness(y):
     """Compute loudness of the audio signal"""
     return librosa.feature.rms(y=y)
 
-def detect_shouting(loudness, threshold=0.1):
+def detect_loudness(loudness, threshold=0.1):
     """Detect segments where the loudness exceeds a threshold"""
     return [idx for idx, value in enumerate(loudness[0]) if value > threshold]
 
@@ -56,18 +56,18 @@ def merge_consecutive_timestamps(timestamps, gap_threshold=5, min_duration=3):
     return merged_ranges
 
 def analyze_audio(file_path, loudness_threshold=0.1, min_duration=3, gap_threshold=5):
-    """Main function to analyze the audio and detect shouting segments based on loudness."""
+    """Main function to analyze the audio and detect loud/shouting segments based on loudness."""
     y, sr = load_audio(file_path)
     loudness = compute_loudness(y)
-    shouting_segments = detect_shouting(loudness, threshold=loudness_threshold)
-    shouting_times = segment_to_time(shouting_segments, sr)
-    shouting_times_mm_ss = format_timestamps_to_mm_ss(shouting_times)
-    shouting_times_mm_ss.sort(key=lambda t: int(t.split(":" )[0]) * 60 + int(t.split(":" )[1]))
-    shouting_ranges = merge_consecutive_timestamps(shouting_times_mm_ss, gap_threshold=gap_threshold, min_duration=min_duration)
+    loud_segments = detect_loudness(loudness, threshold=loudness_threshold)
+    loud_times = segment_to_time(loud_segments, sr)
+    loud_times_mm_ss = format_timestamps_to_mm_ss(loud_times)
+    loud_times_mm_ss.sort(key=lambda t: int(t.split(":" )[0]) * 60 + int(t.split(":" )[1]))
+    loud_ranges = merge_consecutive_timestamps(loud_times_mm_ss, gap_threshold=gap_threshold, min_duration=min_duration)
 
     # Format the output as JSON
     result = {
-        "shouting_ranges": shouting_ranges
+        "loud_segments": loud_ranges
     }
 
     return result
