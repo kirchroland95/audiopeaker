@@ -41,6 +41,14 @@ def start_analysis(file_path_entry, tolerance_entry, duration_entry, gap_entry, 
         # Call the analyze_audio function with the prepared arguments
         result = analyze_audio(**kwargs)
 
+        # Check if there are any loud segments
+        if not result["loud_segments"]:
+            results_text.config(state=tk.NORMAL)
+            results_text.delete(1.0, tk.END)
+            results_text.insert(tk.END, "No loud segments detected.")
+            results_text.config(state=tk.DISABLED)
+            return
+
         # Display the results in the results_text widget
         results_text.config(state=tk.NORMAL)
         results_text.delete(1.0, tk.END)
