@@ -1,0 +1,12 @@
+# Ignore Python cache files
+__pycache__/
+*.pyc
+
+# Ignore generated JSON files
+*.json
+
+# Ignore audio files
+*.mp3
+*.wav
+*.flac
+*.ogg
