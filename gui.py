@@ -136,6 +136,9 @@ def run_gui():
     root.title("AudioPeaker") 
     root.geometry("500x600")  # Window size
 
+    # Set the custom icon
+    root.iconbitmap("icon.ico")
+
     # Add Help button in the top-right corner
     help_button = tk.Button(root, text="Help", command=show_help)
     help_button.pack(anchor="ne", padx=10, pady=10)
