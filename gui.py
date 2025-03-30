@@ -202,4 +202,3 @@ def run_gui():
 
     # Run the application
     root.mainloop()
-run_gui()
