@@ -71,3 +71,10 @@ The results are saved in a JSON file with the following structure:
 }
 ```
 
+---
+
+### Planned Future Features
+- Add support for additional audio formats if needed.
+- Allow users to export results in other formats.
+- Add automatic tolerance calculator option for audio files that have constant speaking
+- Add additional quality-of-life improvements if requested
